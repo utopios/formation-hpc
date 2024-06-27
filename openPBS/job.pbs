@@ -1,0 +1,11 @@
+#! /bin/bash
+#PBS -N demo
+#PBS -o demo.txt
+#PBS -e demo_error.txt
+#PBS -q workq
+#PBS -l mem=100mb
+#PBS -M ihab@utopios.net
+#PBS -m a
+#PBS -V
+
+ls - /
