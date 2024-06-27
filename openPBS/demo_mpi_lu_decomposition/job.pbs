@@ -1,0 +1,14 @@
+#! /bin/bash
+#PBS -N mpi_lu_decomposition
+#PBS -o mpi_output.txt
+#PBS -e mpi_error.txt
+#PBS -q workq
+#PBS -l nodes=1:ppn=4
+#PBS -l walltime=00:10:00
+#PBS -M ihab@utopios.net
+#PBS -m a
+#PBS -V
+
+cd $PBS_O_WORKDIR
+
+mpiexec -np 4 ./main
