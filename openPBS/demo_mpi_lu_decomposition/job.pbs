@@ -1,4 +1,5 @@
 #! /bin/bash
+
 #PBS -N mpi_lu_decomposition
 #PBS -o mpi_output.txt
 #PBS -e mpi_error.txt
