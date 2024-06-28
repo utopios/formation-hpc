@@ -61,8 +61,12 @@ void solve(double u[NX][NY], double v[NX][NY], double p[NX][NY], double b[NX][NY
         #pragma omp parallel for
         for (int i = 1; i < NX-1; i++) {
             for (int j = 1; j < NY-1; j++) {
-                u[i][j] -= dt / dx * (p[i+1][j] - p[i][j]);
-                v[i][j] -= dt / dy * (p[i][j+1] - p[i][j]);
+                double du = dt / dx * (p[i+1][j] - p[i][j]);
+                double dv = dt / dy * (p[i][j+1] - p[i][j]);
+                #pragma omp atomic
+                u[i][j] -= du;
+                #pragma omp atomic
+                v[i][j] -= dv;
             }
         }
     }
