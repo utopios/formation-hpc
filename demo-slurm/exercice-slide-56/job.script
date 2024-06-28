@@ -1,0 +1,24 @@
+#!/bin/bash
+#SBATCH --job-name=monte_carlo
+#SBATCH --output=/data/monte_carlo.out
+#SBATCH --error=/data/monte_carlo.err
+#SBATCH --time=00:05:00  # Temps maximum d'exécution de 5 minutes
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=512M
+#SBATCH --partition=normal
+
+SEQUENTIAL_TIME=10.0
+
+# Exécuter le programme MPI
+mpiexec -np 4 ./main
+
+# Lire le temps d'exécution MPI depuis mpi_output.txt
+MPI_TIME=$(grep 'Time taken with MPI' mpi_output.txt | awk '{print $5}')
+
+# Calculer le speedup
+SPEEDUP=$(echo "$SEQUENTIAL_TIME / $MPI_TIME")
+
+echo "Sequential time: $SEQUENTIAL_TIME seconds"
+echo "MPI time: $MPI_TIME seconds"
+echo "Speedup: $SPEEDUP" > speedup.txt
