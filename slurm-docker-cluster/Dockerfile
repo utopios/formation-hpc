@@ -32,6 +32,8 @@ RUN set -ex \
        vim-enhanced \
        http-parser-devel \
        json-c-devel \
+       openmpi \
+       openmpi-devel \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -92,6 +94,7 @@ RUN set -x \
     && chown slurm:slurm /etc/slurm/slurmdbd.conf \
     && chmod 600 /etc/slurm/slurmdbd.conf
 
+RUN export PATH=/usr/lib64/openmpi/bin:$PATH 
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
