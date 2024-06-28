@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#PBS -N mpi_monte_carlo        
+#PBS -o mpi_output.txt         
+#PBS -e mpi_error.txt          
+#PBS -q workq                  
+#PBS -l nodes=1:ppn=4          
+#PBS -l walltime=00:10:00      
+#PBS -l vmem=2gb               
+
+# Changer de répertoire vers celui où le job a été soumis
+cd $PBS_O_WORKDIR
+
+# Temps séquentiel (à ajuster après l'exécution du programme séquentiel)
+SEQUENTIAL_TIME=10.0
+
+# Exécuter le programme MPI
+mpiexec -np 4 ./main
+
+# Lire le temps d'exécution MPI depuis mpi_output.txt
+MPI_TIME=$(grep 'Time taken with MPI' mpi_output.txt | awk '{print $5}')
+
+# Calculer le speedup
+SPEEDUP=$(echo "$SEQUENTIAL_TIME / $MPI_TIME")
+
+echo "Sequential time: $SEQUENTIAL_TIME seconds"
+echo "MPI time: $MPI_TIME seconds"
+echo "Speedup: $SPEEDUP" > speedup.txt
