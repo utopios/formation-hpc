@@ -1,0 +1,30 @@
+Bootstrap: docker
+FROM: ubuntu:20.04
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update && apt-get install -y \
+        build-essential \
+        gcc \
+        g++ \
+        libomp-dev \
+        openmpi-bin \
+        libopenmpi-dev
+    mkdir -p /app
+
+%files
+    main.c /app/main.c
+
+%environment
+    export PATH=/usr/lib/openmpi/bin:$PATH
+    export LD_LIBRARY_PATH=/usr/lib/openmpi/lib:$LD_LIBRARY_PATH
+    export OMP_NUM_THREADS=4
+
+%runscript
+    cd /app
+    gcc -fopenmp -o main main.c
+    ./main
+    
+%labels
+    Author Ihab
+    Version 1
+    Description Conteneur pour une application c
