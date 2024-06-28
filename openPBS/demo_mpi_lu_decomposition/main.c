@@ -50,7 +50,9 @@ int main(int argc, char** argv) {
     int world_rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    double matrix[SIZE][SIZE], L[SIZE][SIZE] = {0}, U[SIZE][SIZE] = {0};
+    double (*matrix)[SIZE] = malloc(SIZE * SIZE * sizeof(double));
+    double (*L)[SIZE] = malloc(SIZE * SIZE * sizeof(double));
+    double (*U)[SIZE] = malloc(SIZE * SIZE * sizeof(double));
 
     if (world_rank == 0) {
         srand(time(NULL));
