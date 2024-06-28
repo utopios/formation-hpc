@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --job-name=simple_test
+#SBATCH --output=/simple_test.out
+#SBATCH --error=/simple_test.err
+#SBATCH --time=00:05:00  # Temps maximum d'exécution de 5 minutes
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=512M
+
+echo "Hello, SLURM!"
+sleep 60  # Attend pendant 60 secondes
+echo "Job terminé avec succès"
